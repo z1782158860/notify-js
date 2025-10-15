@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>通知系统示例</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .btn-group h1 {
+            color: #333;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin: 20px 0;
+        }
+        .btn-group button {
+            padding: 12px 18px;
+            border: none;
+            border-radius: 6px;
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        .btn-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .btn-success { background: #4CAF50; }
+        .btn-error { background: #F44336; }
+        .btn-warning { background: #FF9800; }
+        .btn-info { background: #2196F3; }
+        .btn-system { background: #9C27B0; }
+        .btn-custom { background: #607D8B; }
+        .btn-group code {
+            background: #f5f5f5;
+            padding: 2px 4px;
+            border-radius: 3px;
+            font-family: monospace;
+        }
+        .btn-timer {
+            background: #FF5722;
+            margin-top: 20px;
+        }
+        #countdown-display {
+            margin-top: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>通知系统演示</h1>
+    
+    <div class="btn-group">
+        <button class="btn-success" onclick="notify.success({
+            title: '操作成功',
+            content: '您的数据已成功保存',
+            timeout: 3000
+        })">成功通知</button>
+        
+        <button class="btn-error" onclick="notify.error({
+            title: '发生错误',
+            content: '无法连接到服务器',
+            timeout: 4000
+        })">错误通知</button>
+        
+        <button class="btn-warning" onclick="notify.warning({
+            title: '警告',
+            content: '您的存储空间不足',
+            timeout: 5000
+        })">警告通知</button>
+        
+        <button class="btn-info" onclick="notify.info('新版本可用，请及时更新')">普通通知</button>
+        <button class="btn-info" onclick="toast('新版本可用，请及时更新')">toast通知</button>
+        <button class="btn-info" onclick="alert('新版本可用，请及时更新')">alert通知</button>
+    </div>
+    
+    <div class="btn-group">
+        <button class="btn-custom" onclick="notify({
+            type: 'info',
+            title: '自定义HTML',
+            html: '<div style=\'padding:10px;background:#f5f5f5;border-radius:4px;\'><b>丰富的内容</b><p>支持任何HTML内容，包括：</p><ul><li>列表项</li><li><a href=\'#\' style=\'color:#2196F3;\'>链接</a></li><li><button style=\'padding:4px 8px;background:#4CAF50;color:white;border:none;border-radius:3px;\'>按钮</button></li></ul></div>',
+            logo: 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 24 24\'><path fill=\'%232196F3\' d=\'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z\'/></svg>',
+            timeout: 6000
+        })">自定义HTML通知</button>
+    </div>
+    
+    <h2 style="margin-top: 40px;">系统通知演示</h2>
+    <p>这些通知将使用浏览器原生通知API显示</p>
+    
+    <div class="btn-group">
+        <button class="btn-system" onclick="systemNotify.success({
+            title: '系统通知 - 成功',
+            body: '任务已完成',
+            timeout: 3000
+        })">成功系统通知</button>
+        
+        <button class="btn-system" onclick="systemNotify.error({
+            title: '系统通知 - 错误',
+            body: '无法完成请求',
+            onClick: () => alert('你点击了系统通知')
+        })">错误系统通知</button>
+
+        <button class="btn-system" onclick="systemNotify.warning({
+            title: '系统通知 - 警告',
+            body: '无法完成请求',
+            onClick: () => alert('你点击了系统通知')
+        })">警告系统通知</button>
+
+        <button class="btn-system" onclick="systemNotify.info('系统通知')">普通系统通知</button>
+        <button class="btn-timer" onclick="setWorker(10000, () => systemNotify.success('延迟执行成功'), () => { console.log('Worker 已完成'); })">10秒倒计时系统通知</button>
+    </div>
+
+    
+    
+    <h2 style="margin-top: 40px;">使用说明</h2>
+    <p><strong>美化弹框通知：</strong>使用 <code>notify()</code> 方法或快捷方法 <code>notify.success()</code>, <code>notify.error()</code> 等</p>
+    <p><strong>系统通知：</strong>使用 <code>systemNotify()</code> 方法，首次需要用户授权</p>
+    <script src="js/static/notify.js"></script>
+    
+</body>
+</html>
